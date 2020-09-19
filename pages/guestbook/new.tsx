@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { Button, Form, Loader, Icon } from 'semantic-ui-react';
 import fetch from 'isomorphic-unfetch';
 import Layout from '../../components/Layout';
@@ -26,7 +25,7 @@ const NewGuest = () => {
     const createGuestBook = async () => {
         try {
             console.log(JSON.stringify(form));
-            const rest = await fetch(process.env.BASE_URI+'/guest/new',{
+            await fetch(process.env.BASE_URI+'/guest/new',{
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -57,17 +56,17 @@ const NewGuest = () => {
 
     const validation = () => {
         // console.log(form);
-        let error = {};
-        if (!form.name) {
+        let error = {name:'', address:'', phoneNumber:'', comment:''};
+        if (!form.name || form.name == '') {
             error.name = "Please Input Name";
         }
-        if (!form.address) {
+        if (!form.address || form.address == '') {
             error.address = "Please Input Address";
         }
-        if (!form.phoneNumber) {
+        if (!form.phoneNumber || form.phoneNumber == '') {
             error.phoneNumber = "Please Input Phone Number";
         }
-        if (!form.comment) {
+        if (!form.comment || form.comment == '') {
             error.comment = "Please Input Comment";
         }
 

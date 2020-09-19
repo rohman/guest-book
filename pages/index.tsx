@@ -32,7 +32,7 @@ const IndexPage = ({ lists }: ListData) => {
 
   const deleteGuest = async () => {
     try {
-      const deleted = await fetch(process.env.BASE_URI + `/guest/${id}`, {
+      await fetch(process.env.BASE_URI + `/guest/${id}`, {
         method: 'Delete'
       })
       router.reload();
@@ -67,7 +67,7 @@ const IndexPage = ({ lists }: ListData) => {
         </Table.Header>
         <Table.Body>
           {lists?.map(guest => (
-            <Table.Row key={guest.id}>
+            <Table.Row>
               <Table.Cell>{guest.name}</Table.Cell>
               <Table.Cell>{guest.address}</Table.Cell>
               <Table.Cell>{guest.phoneNumber}</Table.Cell>

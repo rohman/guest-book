@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { Button, Form, Loader, Icon } from 'semantic-ui-react';
 import fetch from 'isomorphic-unfetch';
 import Layout from '../../../components/Layout';
@@ -9,7 +8,7 @@ interface Guest {
     id: Number;
     name: String;
     address: String;
-    phoneNumber: Number;
+    phoneNumber: String;
     comment: String;
 }
 
@@ -38,7 +37,7 @@ const EditGuest = ({lists} : ListData) => {
     const createGuestBook = async () => {
         try {
             console.log(JSON.stringify(form));
-            const rest = await fetch(process.env.BASE_URI + `/guest/${router.query.id}`, {
+            await fetch(process.env.BASE_URI + `/guest/${router.query.id}`, {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json',
@@ -69,17 +68,17 @@ const EditGuest = ({lists} : ListData) => {
 
     const validation = () => {
         // console.log(form);
-        let error = {};
-        if (!form.name) {
+        let error = {name:'', address:'', phoneNumber:'', comment:''};
+        if (!form.name || form.name == '') {
             error.name = "Please Input Name";
         }
-        if (!form.address) {
+        if (!form.address || form.address == '') {
             error.address = "Please Input Address";
         }
-        if (!form.phoneNumber) {
+        if (!form.phoneNumber || form.phoneNumber == '') {
             error.phoneNumber = "Please Input Phone Number";
         }
-        if (!form.comment) {
+        if (!form.comment || form.comment == '') {
             error.comment = "Please Input Comment";
         }
 
@@ -101,7 +100,7 @@ const EditGuest = ({lists} : ListData) => {
                             error={errors.name ? { content: 'please input name', pointing: 'below' } : null}
                             value={form.name}
                         />
-                        <Form.TextArea
+                        <Form.Input
                             label="Address"
                             placeholder="address"
                             name="address"
@@ -117,13 +116,13 @@ const EditGuest = ({lists} : ListData) => {
                             error={errors.phoneNumber ? { content: 'please input phone number', pointing: 'below' } : null}
                             value={form.phoneNumber}
                         />
-                        <Form.TextArea
+                        <Form.Input
                             label="Comment"
                             placeholder="comment"
                             name="comment"
                             onChange={handleChange}
                             error={errors.comment ? { content: 'please input comment', pointing: 'below' } : null}
-                            value={form.comment}
+                            value={form.comment} 
                         />
                         <Button secondary type="submit"><Icon name="edit" />Update</Button>
                     </Form>
@@ -134,7 +133,7 @@ const EditGuest = ({lists} : ListData) => {
     </Layout>
 }
 
-EditGuest.getInitialProps = async ({ query: {id} }) => {
+EditGuest.getInitialProps = async ({ query: {id} } : any) => {
     const res = await fetch(process.env.BASE_URI + `/guest/${id}`);
     const data: Guest[] | undefined = await res.json();
     return { lists: data };

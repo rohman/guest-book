@@ -8,6 +8,7 @@
     "type-check": "tsc"
   },
   "dependencies": {
+    "@types/semantic-ui": "^2.2.7",
     "@types/sqlite3": "^3.1.6",
     "isomorphic-unfetch": "^3.0.0",
     "next": "latest",
